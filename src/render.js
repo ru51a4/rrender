@@ -203,6 +203,37 @@ class render {
             //  
         });
         let html = '';
+        var utils = {
+            noEndTag(tag) {
+                let noEndTags = [
+                    'noscript',
+                    'link',
+                    'base',
+                    'meta',
+                    'input',
+                    'svg',
+                    'path',
+                    'img',
+                    'br',
+                    'area',
+                    'base',
+                    'br',
+                    'col',
+                    'embed',
+                    'hr',
+                    'img',
+                    'input',
+                    'keygen',
+                    'link',
+                    'meta',
+                    'param',
+                    'source',
+                    'track',
+                    'wbr'
+                ];
+                return noEndTags.includes(tag);
+            }
+        };
         let sumHtml = (node, init = false) => {
             if (!node || node?.attr?.find((c) => c['key'] === 'r-if')?.value[0] == 'false') {
                 return;
@@ -217,7 +248,7 @@ class render {
             node.childrens.forEach((node) => {
                 sumHtml(node);
             });
-            if (!init) {
+            if (!utils.noEndTag(node.tag) && !init) {
                 html += '</' + node.tag + '>';
             }
         }
