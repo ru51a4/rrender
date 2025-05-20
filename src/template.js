@@ -28,6 +28,37 @@ class _template {
             }
         }
         let sumHtml = (node, key = null, i = null, value, _for = false) => {
+            var utils = {
+                noEndTag(tag) {
+                    let noEndTags = [
+                        'noscript',
+                        'link',
+                        'base',
+                        'meta',
+                        'input',
+                        'svg',
+                        'path',
+                        'img',
+                        'br',
+                        'area',
+                        'base',
+                        'br',
+                        'col',
+                        'embed',
+                        'hr',
+                        'img',
+                        'input',
+                        'keygen',
+                        'link',
+                        'meta',
+                        'param',
+                        'source',
+                        'track',
+                        'wbr'
+                    ];
+                    return noEndTags.includes(tag);
+                }
+            };
             node.tag = node.tag.trim();
             let for_key = ''
             let type_for = node?.attr?.find((c) => c['key'] === 'r-for')?.value[0];
@@ -138,7 +169,7 @@ class _template {
                 node.childrens.forEach((node) => {
                     sumHtml(node, null, null, value);
                 });
-                if (!components.map(item => item.name).includes(node.tag)) {
+                if (!utils.noEndTag(node.tag) && !components.map(item => item.name).includes(node.tag)) {
                     html += '</' + node.tag + '>';
                     html += "\n"
                 }
