@@ -169,7 +169,7 @@ class _template {
                 node.childrens.forEach((node) => {
                     sumHtml(node, null, null, value);
                 });
-                if (!utils.noEndTag(node.tag) && !components.map(item => item.name).includes(node.tag)) {
+                if (!components.map(item => item.name).includes(node.tag)) {
                     html += '</' + node.tag + '>';
                     html += "\n"
                 }
@@ -231,7 +231,7 @@ class _template {
                 if (parentStack[parentStack.length - 1] && el.tag !== 'script') {
                     parentStack[parentStack.length - 1].childrens.push(el)
                 }
-                if (!utils.noEndTag(el.tag)) {
+                if (!utils.noEndTag(el.tag.split("\n").join("").trim())) {
                     parentStack.push(el);
                 }
             },
@@ -242,6 +242,9 @@ class _template {
                 }
             },
             (item) => {
+                if (utils.noEndTag(item.tag)) {
+                    return;
+                }
                 //closedtag
                 parentStack.pop();
             }, (item) => {

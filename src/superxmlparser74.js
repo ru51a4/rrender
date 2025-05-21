@@ -60,7 +60,7 @@ class superxmlparser74 {
                         })
                     }
                 } else {
-                    cbClosedTag({})
+                    cbClosedTag({ tag: t.split("\n").join("").trim() })
                 }
                 attr = [];
                 t = '';
