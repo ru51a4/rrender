@@ -76,7 +76,7 @@ class component_menu extends component {
             let counter = 0;
             while (queue.length) {
                 let item = queue.shift();
-                let next = (item.childrens.length) ? "➯" : "";
+                let next = (item.childrens.length) ? `<img style="width:10px;" src="arrow.svg"></img>   ` : "";
                 let display = !res.length ? true : res.length <= lvl && !item.parent || kek.map(c => c.title).includes(item.parent) ? true : false;
                 c.push({ ...item, next: next, display })
                 t.push(...item.childrens);
