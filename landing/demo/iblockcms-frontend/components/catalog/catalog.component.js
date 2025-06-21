@@ -22,7 +22,6 @@ class component_catalog extends component {
                         <span r-bind="name"></span>
                         <p>
                             <img style="width:100px" r-bind.src="img">
-                            </img>
                         </p>
                         <ul>
                             <div r-bind="prop"></div>

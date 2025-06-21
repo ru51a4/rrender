@@ -1,0 +1,49 @@
+<html>
+<script src="../../src/superxmlparser74.js"></script>
+<script src="../../src/dombuilder.js"></script>
+<script src="../../src/template.js"></script>
+<script src="../../src/render.js"></script>
+
+<body>
+    <div class="main">
+        <hello />
+    </div>
+</body>
+<script>
+    class component_hello extends component {
+        state = {
+            array: [{ item: 'hi', hide: true }, { item: 'privet', hide: true }, { item: 'alloha', hide: true }]
+        };
+        body() {
+            return `<div>
+                <ul>
+                    <li r-for="array">
+                        <div r-if="hide">
+                            <span r-bind="item"></span>
+                        </div>
+                    </li>
+                </ul>
+                <button r-click="r">rand</button>
+                </div>`;
+        }
+        r() {
+            this.state.array.push({ item: "hello", hide: true });
+        }
+    }
+
+    var components = [
+        {
+            name: 'hello',
+            component: component_hello
+        },
+    ];
+
+    var Render = new render(document.querySelector(".main"), components);
+
+    function main() {
+        Render.renderDom();
+    }
+    main();
+</script>
+
+</html>

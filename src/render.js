@@ -261,7 +261,7 @@ class render {
                     if (Number(virtualDomStack[i]) === virtualDomStack[i]) {
                         numChild = virtualDomStack[i];
                     } else {
-                        numChild = this.vdom.find(el => el.id == virtualDomStack[i]).numChild;
+                        numChild = this.prevVdom.find(el => el.id == virtualDomStack[i]).numChild;
                     }
                     if (currentDocumentDom.children[numChild]) {
                         currentDocumentDom = currentDocumentDom.children[numChild];
@@ -283,20 +283,47 @@ class render {
                 let c2 = prevElVdom?.childrens?.length;
                 let childs = [];
                 let c3 = (c1 > c2) ? c1 : c2;
+                let i1 = 0;
+                let i2 = 0;
                 for (let i = 0; i <= c3 - 1; i++) {
-                    let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                    let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i1]?.id);
+                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i2]?.id);
+                    while (i1 <= c3 - 1 && cc1?.attr?.find((c) => c['key'] === 'r-if')?.value[0] === 'false') {
+                        i1++
+                        cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i1]?.id);
+                    }
+                    i1++
+                    while (i2 <= c3 - 1 && cc2?.attr?.find((c) => c['key'] === 'r-if')?.value[0] === 'false') {
+                        i2++
+                        cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i2]?.id);
+                    }
+                    i2++
                     let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
                     let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                    if (JSON.stringify(q1) !== JSON.stringify(q2)) {
-                        if (prevElVdom.id.includes('component')) {
-                            prevElVdom = prevElVdom.parentNode;
-                            elVdom = elVdom.parentNode;
+                    if (!elVdom.id.includes('component')) {
+                        if (!cc1) {
+                            stackUpdateDom.push({ t: cc1, tt: cc2, el: elVdom, prev: prevElVdom, type: "delete" })
+                            continue
                         }
-                        stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
-                        return;
+                        if (!cc2) {
+                            console.log(c3)
+                            stackUpdateDom.push({ t: cc1, tt: cc2, el: elVdom, prev: prevElVdom, type: "add" })
+                            console.log({ l: stackUpdateDom.length })
+                            continue
+                        }
+                        // console.log(cc1, cc2)
+                        if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                            if (prevElVdom.id.includes('component')) {
+                                prevElVdom = prevElVdom.parentNode;
+                                elVdom = elVdom.parentNode;
+                            }
+                            stackUpdateDom.push({ t: cc1, tt: cc2, el: elVdom, prev: prevElVdom, type: "create" })
+                        } else {
+                            childs.push(cc1.id);
+                        }
                     } {
-                        childs.push(cc1.id);
+                        console.log({ cc1 })
+                        childs.push(...cc1.childrens.map((c) => c.id));
                     }
                 }
                 childs.forEach((id) => {
@@ -304,20 +331,31 @@ class render {
                 })
 
             }
+            console.log({ cc: this.vdom[0] })
             deepReplace(this.vdom[0].id);
+            console.log({ stackUpdateDom })
             stackUpdateDom.forEach((itemUpdate) => {
-                let domEl = getDomEl([...itemUpdate.prev.parent, itemUpdate.prev.id]);
+                let domEl;
                 html = '';
                 switch (itemUpdate.type) {
                     case "delete":
-                        //todo
+                        domEl = getDomEl([...itemUpdate.tt.parent, itemUpdate.tt.id]);
+                        domEl.remove();
                         break;
                     case "create":
-                        sumHtml(itemUpdate.el, true);
+                        domEl = getDomEl([...itemUpdate.tt.parent, itemUpdate.tt.id]);
+                        sumHtml(itemUpdate.t);
                         domEl.innerHTML = html;
                         break;
-                    case "text":
-                        //todo
+                    case "add":
+                        domEl = getDomEl([...itemUpdate.t.parent]);
+                        sumHtml(itemUpdate.t);
+                        function createElementFromHTML(htmlString) {
+                            var div = document.createElement('div');
+                            div.innerHTML = htmlString.trim();
+                            return div.firstChild;
+                        }
+                        domEl.appendChild(createElementFromHTML(html))
                         break;
                 }
             });

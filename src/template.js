@@ -66,6 +66,7 @@ class _template {
             let bind = node?.attr?.find((c) => c['key'] === 'r-bind')?.value[0];
             let r_click = node?.attr?.find((c) => c['key'] === 'r-click')?.value[0];
             let r_mouse = node?.attr?.find((c) => c['key'] === 'r-mouse')?.value[0];
+            let node_attr = node?.attr
             let r_model = node?.attr?.find((c) => c['key'] === 'r-model')?.value[0];
             let r_bind_attr = node?.attr?.filter((c) => c['key'].includes('r-bind.')).map((c) => {
                 return { key: c['key'], val: c.value[0] };
@@ -101,7 +102,7 @@ class _template {
                 let if_key
                 let if_val
                 if (type_if) {
-                    node.attr = node?.attr?.filter((c) => c['key'] !== 'r-if');
+                    node_attr = node?.attr?.filter((c) => c['key'] !== 'r-if');
                     if (type_if.split("")[0] === '!') {
                         if_key = type_if.split("").filter((c, i) => i !== 0).join("");
                         if_val = !Boolean(getVal(if_key))
@@ -148,7 +149,7 @@ class _template {
                 if (r_model) {
                     r_model = ` onchange="model('${component.name}', {event: event, key: '${r_model}'})"`
                 }
-                html += '<' + node.tag + ((node.attr.length > 1) ? ' ' : '') + `${node.attr.reduce((acc, item, i) => acc + ((item.key !== 'tag') ? `${item.key}="${item.value.join(" ")}"${((node.attr.length - 1 != i + 1) ? ' ' : '')}` : ''), '')}` + ((type_if) ? ` r-key="${if_key}" r-if="${if_val}" ` : '') + ((key) ? ` r-repeat="${key}" r-index="${i}"` : '') +
+                html += '<' + node.tag + ((node_attr.length > 1) ? ' ' : '') + `${node_attr.reduce((acc, item, i) => acc + ((item.key !== 'tag') ? `${item.key}="${item.value.join(" ")}"${((node_attr.length - 1 != i + 1) ? ' ' : '')}` : ''), '')}` + ((type_if) ? ` r-key="${if_key}" r-if="${if_val}" ` : '') + ((key) ? ` r-repeat="${key}" r-index="${i}"` : '') +
                     ((attr) ? `${attr}="${getVal(bind)}"` : '') +
                     ((_attr.length) ? _attr.map((c) => {
                         if (c?.attr) {
@@ -210,7 +211,6 @@ class _template {
                 return noEndTags.includes(tag);
             }
         };
-
         let res = [];
         let parentStack = [];
         superxmlparser74.parse(str,
@@ -259,7 +259,6 @@ class _template {
                     value: [item.tag]
                 })
             });
-
         return res;
     }
 }
