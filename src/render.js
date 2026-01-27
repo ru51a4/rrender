@@ -191,7 +191,6 @@ class render {
                     }
                     let currentComponentDom;
                     if (!component.bbody) {
-                        console.log('asd')
                         currentComponentDom = _template.render(component._body, component);
                         component.bbody = currentComponentDom;
                     } else {
