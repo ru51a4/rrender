@@ -8,6 +8,7 @@ class component {
     name = '';
     index = null;
     propKey = null;
+    bbody = null;
     constructor(_name) {
         this.name = _name;
     }
@@ -188,7 +189,14 @@ class render {
                     } else {
                         component = component.component;
                     }
-                    let currentComponentDom = _template.render(component._body, component);
+                    let currentComponentDom;
+                    if (!component.bbody) {
+                        console.log('asd')
+                        currentComponentDom = _template.render(component._body, component);
+                        component.bbody = currentComponentDom;
+                    } else {
+                        currentComponentDom = component.bbody;
+                    }
                     currentDom += `<div r-name="${currentName}">`
                     currentComponentDom.split("\n").forEach((tag) => {
                         deep(tag);
@@ -373,6 +381,11 @@ function runEvent(name, nameEvent, arg) {
     currentComponents.find((item) => {
         return item.name === name;
     }).component[nameEvent](arg);
+    for (let i = 0; i <= currentComponents.length - 1; i++) {
+        if (currentComponents[i].hierarchy.includes(name)) {
+            currentComponents[i].component.bbody = null;
+        }
+    }
     Render.renderDom();
 }
 
