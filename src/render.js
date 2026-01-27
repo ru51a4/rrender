@@ -27,6 +27,9 @@ class component {
     destroy() {
 
     }
+    dirtyCheck() {
+        this.bbody = null;
+    }
     getProps = (nameprop) => {
         if (this.index === undefined) {
             return getProps(this.parent, nameprop);
