@@ -29,6 +29,7 @@ class component {
     }
     dirtyCheck() {
         this.bbody = null;
+        partialCheck(this.name)
     }
     getProps = (nameprop) => {
         if (this.index === undefined) {
@@ -383,12 +384,15 @@ function runEvent(name, nameEvent, arg) {
     currentComponents.find((item) => {
         return item.name === name;
     }).component[nameEvent](arg);
+    partialCheck(name);
+    Render.renderDom();
+}
+function partialCheck(name) {
     for (let i = 0; i <= currentComponents.length - 1; i++) {
         if (currentComponents[i].hierarchy.includes(name)) {
             currentComponents[i].component.bbody = null;
         }
     }
-    Render.renderDom();
 }
 
 function runParentEvent(name, nameEvent, arg) {
