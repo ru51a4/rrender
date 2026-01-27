@@ -194,13 +194,15 @@ class render {
                         component = component.component;
                     }
                     let currentComponentDom;
+                    let dirty = 'false';
                     if (!component.bbody) {
                         currentComponentDom = _template.render(component._body, component);
                         component.bbody = currentComponentDom;
+                        dirty = 'true';
                     } else {
                         currentComponentDom = component.bbody;
                     }
-                    currentDom += `<div r-name="${currentName}">`
+                    currentDom += `<div r-name="${currentName}" r-dirty="${dirty}">`
                     currentComponentDom.split("\n").forEach((tag) => {
                         deep(tag);
                     });
@@ -296,18 +298,24 @@ class render {
                 let c3 = (c1 > c2) ? c1 : c2;
                 for (let i = 0; i <= c3 - 1; i++) {
                     let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
-                    let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                    let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                    if (JSON.stringify(q1) !== JSON.stringify(q2)) {
-                        if (prevElVdom.id.includes('component')) {
-                            prevElVdom = prevElVdom.parentNode;
-                            elVdom = elVdom.parentNode;
-                        }
-                        stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
-                        return;
-                    } {
+                    if (!cc1.dirty) {
+                        //
                         childs.push(cc1.id);
+                        //
+                    } else {
+                        let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                        let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                        let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                        if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                            if (prevElVdom.id.includes('component')) {
+                                prevElVdom = prevElVdom.parentNode;
+                                elVdom = elVdom.parentNode;
+                            }
+                            stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
+                            return;
+                        } {
+                            childs.push(cc1.id);
+                        }
                     }
                 }
                 childs.forEach((id) => {
