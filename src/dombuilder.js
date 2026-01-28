@@ -46,7 +46,7 @@ class BuilderDOM {
                     if (dirty) {
                         _dirty = { name: component };
                     }
-                    cStack.push({ type: 'component', component, nname: _dirty.name });
+                    cStack.push({ type: 'component', component, nname: _dirty?.name });
                 } else {
                     cStack.push({ type: 'div', component: null, remove });
                 }

@@ -55,6 +55,8 @@ class render {
     }
 
     renderDom() {
+        let timeA = performance.now();
+
         var currentDom = '';
         let counter = 0;
         var hierarchyStack = [];
@@ -350,6 +352,8 @@ class render {
             this.init = false;
             this.prevVdom = this.vdom;
         }
+        let timeB = performance.now();
+        console.log('perfomance', timeB - timeA);
         ////////////
     }
 
