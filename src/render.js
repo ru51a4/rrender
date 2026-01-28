@@ -28,7 +28,6 @@ class component {
 
     }
     dirtyCheck() {
-        this.bbody = null;
         partialCheck(this.name)
     }
     getProps = (nameprop) => {
