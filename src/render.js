@@ -55,6 +55,20 @@ class render {
 
     renderDom() {
         let timeA = performance.now();
+        let timeB = {};
+        let _r = false;
+        for (let i = 0; i <= currentComponents.length - 1; i++) {
+            if (!currentComponents[i].component.bbody) {
+                _r = true;
+                break;
+            };
+        }
+        if (!this.init && !_r) {
+            timeB = performance.now();
+            console.log('perfomance', timeB - timeA);
+            return;
+        }
+
 
         var currentDom = '';
         let counter = 0;
@@ -351,7 +365,7 @@ class render {
             this.init = false;
             this.prevVdom = this.vdom;
         }
-        let timeB = performance.now();
+        timeB = performance.now();
         console.log('perfomance', timeB - timeA);
         ////////////
     }
