@@ -13,3 +13,4 @@ r-bind.attr
 3) store - global variable with rxjs  
 4) you can access the state parent  
 5) you can call methods of parent from child  
+6) only dirty component rerender. use this.dirtyCheck();
