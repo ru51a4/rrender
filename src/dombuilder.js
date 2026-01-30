@@ -14,7 +14,7 @@ class node {
     right;
     rName;
 }
-
+var _dirty = null;
 class BuilderDOM {
     build(str) {
         //todo
@@ -40,9 +40,13 @@ class BuilderDOM {
                 let remove = item.attr.find(c => c['key'] == "r-if")?.value[0] === 'false';
                 let _key = '';
                 let cName = item.attr.find(c => c['key'] == "r-name")?.value[0];
+                let dirty = (item.attr.find(c => c['key'] == "r-dirty")?.value[0] == 'false') ? false : true;
                 if (cName) {
                     component = item.attr.find(c => c['key'] == "r-name")?.value[0];
-                    cStack.push({ type: 'component', component });
+                    if (dirty) {
+                        _dirty = { name: component };
+                    }
+                    cStack.push({ type: 'component', component, nname: _dirty?.name });
                 } else {
                     cStack.push({ type: 'div', component: null, remove });
                 }
@@ -66,6 +70,7 @@ class BuilderDOM {
                 el.attr = item.attr;
                 el.tag = item.tag.trim();
                 el.numChild = map[lvl_key];
+                el.dirty = Boolean(_dirty);
                 el.parent = JSON.parse(JSON.stringify(p));
                 el.parentNode = parentStack[parentStack.length - 1];
                 el.id = _key;
@@ -98,6 +103,10 @@ class BuilderDOM {
                 }
                 parentStack[parentStack.length - 1].right = counter++
                 let isComponent = cStack.pop();
+
+                if (isComponent.nname && isComponent.nname === _dirty?.name) {
+                    _dirty = null
+                }
                 //closedtag
                 parentStack.pop();
                 if (!isComponent.remove && isComponent.type !== 'component') {

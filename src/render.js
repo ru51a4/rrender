@@ -8,6 +8,7 @@ class component {
     name = '';
     index = null;
     propKey = null;
+    bbody = null;
     constructor(_name) {
         this.name = _name;
     }
@@ -25,6 +26,9 @@ class component {
     }
     destroy() {
 
+    }
+    dirtyCheck() {
+        partialCheck(this.name)
     }
     getProps = (nameprop) => {
         if (this.index === undefined) {
@@ -50,6 +54,22 @@ class render {
     }
 
     renderDom() {
+        let timeA = performance.now();
+        let timeB = {};
+        let _r = false;
+        for (let i = 0; i <= currentComponents.length - 1; i++) {
+            if (!currentComponents[i].component.bbody) {
+                _r = true;
+                break;
+            };
+        }
+        if (!this.init && !_r) {
+            timeB = performance.now();
+            console.log('perfomance', timeB - timeA);
+            return;
+        }
+
+
         var currentDom = '';
         let counter = 0;
         var hierarchyStack = [];
@@ -188,8 +208,16 @@ class render {
                     } else {
                         component = component.component;
                     }
-                    let currentComponentDom = _template.render(component._body, component);
-                    currentDom += `<div r-name="${currentName}">`
+                    let currentComponentDom;
+                    let dirty = 'false';
+                    if (!component.bbody) {
+                        currentComponentDom = _template.render(component._body, component);
+                        component.bbody = currentComponentDom;
+                        dirty = 'true';
+                    } else {
+                        currentComponentDom = component.bbody;
+                    }
+                    currentDom += `<div r-name="${currentName}" r-dirty="${dirty}">`
                     currentComponentDom.split("\n").forEach((tag) => {
                         deep(tag);
                     });
@@ -285,18 +313,24 @@ class render {
                 let c3 = (c1 > c2) ? c1 : c2;
                 for (let i = 0; i <= c3 - 1; i++) {
                     let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
-                    let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                    let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                    if (JSON.stringify(q1) !== JSON.stringify(q2)) {
-                        if (prevElVdom.id.includes('component')) {
-                            prevElVdom = prevElVdom.parentNode;
-                            elVdom = elVdom.parentNode;
-                        }
-                        stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
-                        return;
-                    } {
+                    if (!cc1.dirty) {
+                        //
                         childs.push(cc1.id);
+                        //
+                    } else {
+                        let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                        let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                        let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                        if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                            if (prevElVdom.id.includes('component')) {
+                                prevElVdom = prevElVdom.parentNode;
+                                elVdom = elVdom.parentNode;
+                            }
+                            stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
+                            return;
+                        } {
+                            childs.push(cc1.id);
+                        }
                     }
                 }
                 childs.forEach((id) => {
@@ -331,6 +365,8 @@ class render {
             this.init = false;
             this.prevVdom = this.vdom;
         }
+        timeB = performance.now();
+        console.log('perfomance', timeB - timeA);
         ////////////
     }
 
@@ -373,7 +409,15 @@ function runEvent(name, nameEvent, arg) {
     currentComponents.find((item) => {
         return item.name === name;
     }).component[nameEvent](arg);
+    partialCheck(name);
     Render.renderDom();
+}
+function partialCheck(name) {
+    for (let i = 0; i <= currentComponents.length - 1; i++) {
+        if (currentComponents[i].hierarchy.includes(name)) {
+            currentComponents[i].component.bbody = null;
+        }
+    }
 }
 
 function runParentEvent(name, nameEvent, arg) {
