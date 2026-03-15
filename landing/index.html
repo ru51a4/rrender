@@ -103,55 +103,66 @@ class component_todo extends component {
                 <!-- HTML generated using hilite.me -->
                 <div
                     style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-                    <pre style="margin: 0; line-height: 125%"><span style="color: #007700">&lt;html&gt;</span>
-<span style="color: #007700">&lt;script </span><span style="color: #0000CC">src=</span><span style="background-color: #fff0f0">&quot;https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js&quot;</span><span style="color: #007700">&gt;&lt;/script&gt;</span>
-
-<span style="color: #007700">&lt;body&gt;</span>
-    <span style="color: #007700">&lt;div</span> <span style="color: #0000CC">class=</span><span style="background-color: #fff0f0">&quot;main&quot;</span><span style="color: #007700">&gt;</span>
-        <span style="color: #007700">&lt;hello /&gt;</span>
-    <span style="color: #007700">&lt;/div&gt;</span>
-<span style="color: #007700">&lt;/body&gt;</span>
-<span style="color: #007700">&lt;script&gt;</span>
-    <span style="color: #008800; font-weight: bold">class</span> component_hello <span style="color: #008800; font-weight: bold">extends</span> component {
-        state <span style="color: #333333">=</span> {
-            variable<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;hello&quot;</span>,
-            color<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&quot;red&quot;</span>,
-            cssColor<span style="color: #333333">:</span> () <span style="color: #333333">=&gt;</span> {
-                <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&#39;color:&#39;</span> <span style="color: #333333">+</span> <span style="color: #008800; font-weight: bold">this</span>.state.color <span style="color: #333333">+</span> <span style="background-color: #fff0f0">&#39;;&#39;</span>
-            }
-        };
-        body() {
-            <span style="color: #008800; font-weight: bold">return</span> <span style="background-color: #fff0f0">&#39;&lt;div&gt; &lt;span r-bind=&quot;variable&quot;&gt;&lt;/span&gt; &lt;span r-bind.style=&quot;cssColor&quot;&gt;world&lt;/span&gt;&lt;/div&gt; &#39;</span>;
-        }
-        init() {
-            console.log(<span style="background-color: #fff0f0">&#39;init&#39;</span>)
-        }
-    }
-
-    <span style="color: #008800; font-weight: bold">var</span> components <span style="color: #333333">=</span> [
-        {
-            name<span style="color: #333333">:</span> <span style="background-color: #fff0f0">&#39;hello&#39;</span>,
-            component<span style="color: #333333">:</span> component_hello
-        },
-    ];
-
-    var Render <span style="color: #333333">=</span> <span style="color: #008800; font-weight: bold">new</span> render(document.querySelector(".main"), components);
-
-    <span style="color: #008800; font-weight: bold">function</span> main() {
-        Render.renderDom();
-    }
-    main();
-<span style="color: #007700">&lt;/script&gt;</span>
-
-<span style="color: #007700">&lt;/html&gt;</span>
-</pre>
+                    <pre style="margin: 0; line-height: 125%;"><span></span>&lt;<span style="color: #070">html</span>&gt;
+                &lt;<span style="color: #070">script</span> <span style="color: #00C">src</span><span style="color: #333">=</span><span style="background-color: #FFF0F0">&quot;https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js&quot;</span>&gt;&lt;/<span style="color: #070">script</span>&gt;
+                
+                &lt;<span style="color: #070">body</span>&gt;
+                    &lt;<span style="color: #070">div</span> <span style="color: #00C">class</span><span style="color: #333">=</span><span style="background-color: #FFF0F0">&quot;main&quot;</span>&gt;
+                        &lt;<span style="color: #070">hello</span> /&gt;
+                    &lt;/<span style="color: #070">div</span>&gt;
+                &lt;/<span style="color: #070">body</span>&gt;
+                &lt;<span style="color: #070">script</span>&gt;
+                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">class</span><span style="color: #BBB"> </span>component_hello<span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">extends</span><span style="color: #BBB"> </span>component<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">        </span>state<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>{
+                <span style="color: #BBB">            </span>variable<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&quot;hello&quot;</span>,
+                <span style="color: #BBB">            </span>color<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&quot;red&quot;</span>,
+                <span style="color: #BBB">            </span>cssColor<span style="color: #333">:</span><span style="color: #BBB"> </span>()<span style="color: #BBB"> </span>=&gt;<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;color:&#39;</span><span style="color: #BBB"> </span><span style="color: #333">+</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">this</span>.state.color<span style="color: #BBB"> </span><span style="color: #333">+</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;;&#39;</span>
+                <span style="color: #BBB">            </span>},
+                <span style="color: #BBB">            </span>time<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span><span style="color: #007020">Date</span>().toLocaleTimeString(),
+                <span style="color: #BBB">        </span>};
+                <span style="color: #BBB">        </span>body()<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">            </span><span style="color: #080; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">`&lt;div&gt;</span>
+                <span style="background-color: #FFF0F0">                        &lt;span r-bind=&quot;variable&quot;&gt;&lt;/span&gt;</span>
+                <span style="background-color: #FFF0F0">                        &lt;span r-bind.style=&quot;cssColor&quot;&gt;world&lt;/span&gt;</span>
+                <span style="background-color: #FFF0F0">                        &lt;span r-bind=&quot;time&quot;&gt;&lt;/span&gt;</span>
+                <span style="background-color: #FFF0F0">                    &lt;/div&gt;`</span>;
+                <span style="color: #BBB">        </span>}
+                <span style="color: #BBB">        </span>init()<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">            </span><span style="color: #080; font-weight: bold">this</span>.timer<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>setInterval(()<span style="color: #BBB"> </span>=&gt;<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">this</span>.state.time<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span><span style="color: #007020">Date</span>().toLocaleTimeString();
+                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">this</span>.dirtyCheck();
+                <span style="color: #BBB">                </span>Render.renderDom();
+                <span style="color: #BBB">            </span>},<span style="color: #BBB"> </span><span style="color: #60E; font-weight: bold">1000</span>);
+                <span style="color: #BBB">        </span>}
+                <span style="color: #BBB">        </span>destroy()<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">            </span>clearInterval(<span style="color: #080; font-weight: bold">this</span>.timer);
+                <span style="color: #BBB">        </span>}
+                <span style="color: #BBB">    </span>}
+                
+                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">var</span><span style="color: #BBB"> </span>components<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>[
+                <span style="color: #BBB">        </span>{
+                <span style="color: #BBB">            </span>name<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;hello&#39;</span>,
+                <span style="color: #BBB">            </span>component<span style="color: #333">:</span><span style="color: #BBB"> </span>component_hello
+                <span style="color: #BBB">        </span>},
+                <span style="color: #BBB">    </span>];
+                
+                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">var</span><span style="color: #BBB"> </span>Render<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span>render(<span style="color: #007020">document</span>.querySelector(<span style="background-color: #FFF0F0">&quot;.main&quot;</span>),<span style="color: #BBB"> </span>components);
+                
+                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">function</span><span style="color: #BBB"> </span>main()<span style="color: #BBB"> </span>{
+                <span style="color: #BBB">        </span>Render.renderDom();
+                <span style="color: #BBB">    </span>}
+                <span style="color: #BBB">    </span>main();
+                &lt;/<span style="color: #070">script</span>&gt;
+                
+                &lt;/<span style="color: #070">html</span>&gt;
+                </pre>
                 </div>
 
             </div>
         </div>
-
-
     </div>
+
 </body>
 <script>
     class component_todo extends component {
