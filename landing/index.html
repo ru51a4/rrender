@@ -33,6 +33,9 @@
             </h2>
             <br><span style="text-align: center;">https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js</span>
             <br>
+            <h3 class="d-flex justify-content-center">How it work? &nbsp;<a
+                    href="https://github.com/ru51a4/programming-guide/blob/main/article/rrender.md">read online</a>
+            </h3>
 
         </div>
         <div class="mt-5 row d-flex justify-content-center" style="text-align: center;">
@@ -100,65 +103,60 @@ class component_todo extends component {
         <div class="row ">
             <div class="d-flex flex-column align-items-center">
                 <h2>fast start:</h2>
-                <!-- HTML generated using hilite.me -->
-                <div
-                    style="background: #ffffff; overflow:auto;width:auto;border:solid gray;border-width:.1em .1em .1em .8em;padding:.2em .6em;">
-                    <pre style="margin: 0; line-height: 125%;"><span></span>&lt;<span style="color: #070">html</span>&gt;
-                &lt;<span style="color: #070">script</span> <span style="color: #00C">src</span><span style="color: #333">=</span><span style="background-color: #FFF0F0">&quot;https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js&quot;</span>&gt;&lt;/<span style="color: #070">script</span>&gt;
-                
-                &lt;<span style="color: #070">body</span>&gt;
-                    &lt;<span style="color: #070">div</span> <span style="color: #00C">class</span><span style="color: #333">=</span><span style="background-color: #FFF0F0">&quot;main&quot;</span>&gt;
-                        &lt;<span style="color: #070">hello</span> /&gt;
-                    &lt;/<span style="color: #070">div</span>&gt;
-                &lt;/<span style="color: #070">body</span>&gt;
-                &lt;<span style="color: #070">script</span>&gt;
-                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">class</span><span style="color: #BBB"> </span>component_hello<span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">extends</span><span style="color: #BBB"> </span>component<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">        </span>state<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>{
-                <span style="color: #BBB">            </span>variable<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&quot;hello&quot;</span>,
-                <span style="color: #BBB">            </span>color<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&quot;red&quot;</span>,
-                <span style="color: #BBB">            </span>cssColor<span style="color: #333">:</span><span style="color: #BBB"> </span>()<span style="color: #BBB"> </span>=&gt;<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;color:&#39;</span><span style="color: #BBB"> </span><span style="color: #333">+</span><span style="color: #BBB"> </span><span style="color: #080; font-weight: bold">this</span>.state.color<span style="color: #BBB"> </span><span style="color: #333">+</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;;&#39;</span>
-                <span style="color: #BBB">            </span>},
-                <span style="color: #BBB">            </span>time<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span><span style="color: #007020">Date</span>().toLocaleTimeString(),
-                <span style="color: #BBB">        </span>};
-                <span style="color: #BBB">        </span>body()<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">            </span><span style="color: #080; font-weight: bold">return</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">`&lt;div&gt;</span>
-                <span style="background-color: #FFF0F0">                        &lt;span r-bind=&quot;variable&quot;&gt;&lt;/span&gt;</span>
-                <span style="background-color: #FFF0F0">                        &lt;span r-bind.style=&quot;cssColor&quot;&gt;world&lt;/span&gt;</span>
-                <span style="background-color: #FFF0F0">                        &lt;span r-bind=&quot;time&quot;&gt;&lt;/span&gt;</span>
-                <span style="background-color: #FFF0F0">                    &lt;/div&gt;`</span>;
-                <span style="color: #BBB">        </span>}
-                <span style="color: #BBB">        </span>init()<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">            </span><span style="color: #080; font-weight: bold">this</span>.timer<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>setInterval(()<span style="color: #BBB"> </span>=&gt;<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">this</span>.state.time<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span><span style="color: #007020">Date</span>().toLocaleTimeString();
-                <span style="color: #BBB">                </span><span style="color: #080; font-weight: bold">this</span>.dirtyCheck();
-                <span style="color: #BBB">                </span>Render.renderDom();
-                <span style="color: #BBB">            </span>},<span style="color: #BBB"> </span><span style="color: #60E; font-weight: bold">1000</span>);
-                <span style="color: #BBB">        </span>}
-                <span style="color: #BBB">        </span>destroy()<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">            </span>clearInterval(<span style="color: #080; font-weight: bold">this</span>.timer);
-                <span style="color: #BBB">        </span>}
-                <span style="color: #BBB">    </span>}
-                
-                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">var</span><span style="color: #BBB"> </span>components<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span>[
-                <span style="color: #BBB">        </span>{
-                <span style="color: #BBB">            </span>name<span style="color: #333">:</span><span style="color: #BBB"> </span><span style="background-color: #FFF0F0">&#39;hello&#39;</span>,
-                <span style="color: #BBB">            </span>component<span style="color: #333">:</span><span style="color: #BBB"> </span>component_hello
-                <span style="color: #BBB">        </span>},
-                <span style="color: #BBB">    </span>];
-                
-                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">var</span><span style="color: #BBB"> </span>Render<span style="color: #BBB"> </span><span style="color: #333">=</span><span style="color: #BBB"> </span><span style="color: #000; font-weight: bold">new</span><span style="color: #BBB"> </span>render(<span style="color: #007020">document</span>.querySelector(<span style="background-color: #FFF0F0">&quot;.main&quot;</span>),<span style="color: #BBB"> </span>components);
-                
-                <span style="color: #BBB">    </span><span style="color: #080; font-weight: bold">function</span><span style="color: #BBB"> </span>main()<span style="color: #BBB"> </span>{
-                <span style="color: #BBB">        </span>Render.renderDom();
-                <span style="color: #BBB">    </span>}
-                <span style="color: #BBB">    </span>main();
-                &lt;/<span style="color: #070">script</span>&gt;
-                
-                &lt;/<span style="color: #070">html</span>&gt;
-                </pre>
-                </div>
+                <pre
+                    style="font-family:monospace;color: rgb(68, 68, 68); background-color: rgb(243, 243, 243); font-weight: 400; ">&lt;html&gt;
+<span style="color: rgb(68, 68, 68); font-weight: 400;"><span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">script</span> <span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">src</span>=<span style="color: rgb(136, 0, 0); font-weight: 400;">"https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js"</span>&gt;</span><span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;/<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">script</span>&gt;</span></span>
 
+<span style="color: rgb(68, 68, 68); font-weight: 400;"><span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">body</span>&gt;</span>
+    <span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">div</span> <span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">class</span>=<span style="color: rgb(136, 0, 0); font-weight: 400;">"main"</span>&gt;</span>
+        <span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">hello</span> /&gt;</span>
+    <span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;/<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">div</span>&gt;</span>
+<span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;/<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">body</span>&gt;</span></span>
+<span style="color: rgb(68, 68, 68); font-weight: 400;"><span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">script</span>&gt;</span><span style="color: rgb(68, 68, 68); font-weight: 400;">
+    <span style="color: rgb(68, 68, 68); font-weight: 700;">class</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">component_hello</span> <span style="color: rgb(68, 68, 68); font-weight: 700;">extends</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">component</span> {
+        state = {
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">variable</span>: <span style="color: rgb(136, 0, 0); font-weight: 400;">"hello"</span>,
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">color</span>: <span style="color: rgb(136, 0, 0); font-weight: 400;">"red"</span>,
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">cssColor</span>: <span style="color: rgb(68, 68, 68); font-weight: 400;">() =&gt;</span> {
+                <span style="color: rgb(68, 68, 68); font-weight: 700;">return</span> <span style="color: rgb(136, 0, 0); font-weight: 400;">'color:'</span> + <span style="color: rgb(171, 86, 86); font-weight: 400;">this</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">state</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">color</span> + <span style="color: rgb(136, 0, 0); font-weight: 400;">';'</span>
+            },
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">time</span>: <span style="color: rgb(68, 68, 68); font-weight: 700;">new</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">Date</span>().<span style="color: rgb(136, 0, 0); font-weight: 700;">toLocaleTimeString</span>(),
+        };
+        <span style="color: rgb(136, 0, 0); font-weight: 700;">body</span>(<span style="color: rgb(68, 68, 68); font-weight: 400;"></span>) {
+            <span style="color: rgb(68, 68, 68); font-weight: 700;">return</span> <span style="color: rgb(136, 0, 0); font-weight: 400;">`&lt;div&gt;
+                        &lt;span r-bind="variable"&gt;&lt;/span&gt;
+                        &lt;span r-bind.style="cssColor"&gt;world&lt;/span&gt;
+                        &lt;span r-bind="time"&gt;&lt;/span&gt;
+                    &lt;/div&gt;`</span>;
+        }
+        <span style="color: rgb(136, 0, 0); font-weight: 700;">init</span>(<span style="color: rgb(68, 68, 68); font-weight: 400;"></span>) {
+            <span style="color: rgb(171, 86, 86); font-weight: 400;">this</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">timer</span> = <span style="color: rgb(57, 115, 0); font-weight: 400;">setInterval</span>(<span style="color: rgb(68, 68, 68); font-weight: 400;">() =&gt;</span> {
+                <span style="color: rgb(171, 86, 86); font-weight: 400;">this</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">state</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">time</span> = <span style="color: rgb(68, 68, 68); font-weight: 700;">new</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">Date</span>().<span style="color: rgb(136, 0, 0); font-weight: 700;">toLocaleTimeString</span>();
+                <span style="color: rgb(171, 86, 86); font-weight: 400;">this</span>.<span style="color: rgb(136, 0, 0); font-weight: 700;">dirtyCheck</span>();
+                <span style="color: rgb(136, 0, 0); font-weight: 700;">Render</span>.<span style="color: rgb(136, 0, 0); font-weight: 700;">renderDom</span>();
+            }, <span style="color: rgb(136, 0, 0); font-weight: 400;">1000</span>);
+        }
+        <span style="color: rgb(136, 0, 0); font-weight: 700;">destroy</span>(<span style="color: rgb(68, 68, 68); font-weight: 400;"></span>) {
+            <span style="color: rgb(57, 115, 0); font-weight: 400;">clearInterval</span>(<span style="color: rgb(171, 86, 86); font-weight: 400;">this</span>.<span style="color: rgb(68, 68, 68); font-weight: 400;">timer</span>);
+        }
+    }
+
+    <span style="color: rgb(68, 68, 68); font-weight: 700;">var</span> components = [
+        {
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">name</span>: <span style="color: rgb(136, 0, 0); font-weight: 400;">'hello'</span>,
+            <span style="color: rgb(68, 68, 68); font-weight: 400;">component</span>: component_hello
+        },
+    ];
+
+    <span style="color: rgb(68, 68, 68); font-weight: 700;">var</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">Render</span> = <span style="color: rgb(68, 68, 68); font-weight: 700;">new</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">render</span>(<span style="color: rgb(171, 86, 86); font-weight: 400;">document</span>.<span style="color: rgb(136, 0, 0); font-weight: 700;">querySelector</span>(<span style="color: rgb(136, 0, 0); font-weight: 400;">".main"</span>), components);
+
+    <span style="color: rgb(68, 68, 68); font-weight: 700;">function</span> <span style="color: rgb(136, 0, 0); font-weight: 700;">main</span>(<span style="color: rgb(68, 68, 68); font-weight: 400;"></span>) {
+        <span style="color: rgb(136, 0, 0); font-weight: 700;">Render</span>.<span style="color: rgb(136, 0, 0); font-weight: 700;">renderDom</span>();
+    }
+    <span style="color: rgb(136, 0, 0); font-weight: 700;">main</span>();
+</span><span style="color: rgba(68, 68, 68, 0.667); font-weight: 400;">&lt;/<span style="color: rgba(68, 68, 68, 0.667); font-weight: 700;">script</span>&gt;</span></span>
+
+&lt;/html&gt;</pre>
             </div>
         </div>
     </div>
