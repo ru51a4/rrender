@@ -14,7 +14,7 @@ class node {
     right;
     rName;
 }
-var _dirty = null;
+var _dirty = [];
 class BuilderDOM {
     build(str) {
         //todo
@@ -44,9 +44,9 @@ class BuilderDOM {
                 if (cName) {
                     component = item.attr.find(c => c['key'] == "r-name")?.value[0];
                     if (dirty) {
-                        _dirty = { name: component };
+                        _dirty.push({ name: component });
                     }
-                    cStack.push({ type: 'component', component, nname: _dirty?.name });
+                    cStack.push({ type: 'component', component, nname: _dirty[_dirty.length - 1]?.name });
                 } else {
                     cStack.push({ type: 'div', component: null, remove });
                 }
@@ -70,7 +70,7 @@ class BuilderDOM {
                 el.attr = item.attr;
                 el.tag = item.tag.trim();
                 el.numChild = map[lvl_key];
-                el.dirty = Boolean(_dirty);
+                el.dirty = Boolean(_dirty.length);
                 el.parent = JSON.parse(JSON.stringify(p));
                 el.parentNode = parentStack[parentStack.length - 1];
                 el.id = _key;
@@ -104,8 +104,8 @@ class BuilderDOM {
                 parentStack[parentStack.length - 1].right = counter++
                 let isComponent = cStack.pop();
 
-                if (isComponent.nname && isComponent.nname === _dirty?.name) {
-                    _dirty = null
+                if (isComponent.nname && isComponent.nname === _dirty[_dirty.length]?.name) {
+                    _dirty.pop();
                 }
                 //closedtag
                 parentStack.pop();
