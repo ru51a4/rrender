@@ -221,7 +221,7 @@ class render {
                     currentComponentDom.split("\n").forEach((tag) => {
                         deep(tag);
                     });
-                    currentDom += `</div r-name="${currentName}">`
+                    currentDom += `</div>`
                     hierarchyStack.pop(currentName);
                 }
             }
