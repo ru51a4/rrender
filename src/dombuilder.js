@@ -104,7 +104,7 @@ class BuilderDOM {
                 parentStack[parentStack.length - 1].right = counter++
                 let isComponent = cStack.pop();
 
-                if (isComponent.nname && isComponent.nname === _dirty[_dirty.length]?.name) {
+                if (isComponent.nname && isComponent.nname === _dirty[_dirty.length - 1]?.name) {
                     _dirty.pop();
                 }
                 //closedtag
