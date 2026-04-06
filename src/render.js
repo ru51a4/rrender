@@ -272,8 +272,10 @@ class render {
             }
             if (!init) {
                 if (node.tag == 'input') {
+                    console.log({ node })
                     let f = node.attr.find((c) => c['key'] == 'onkeyup').value[0]
-                    if (f) {
+                    let rmodel = node.attr.find((c) => c['key'] == 'r-model').value[0];
+                    if (f && rmodel) {
                         f = f.split(",")
                         node.attr.find((c) => c['key'] == 'onkeyup').value[0] = `model_change('${f[0]}', {event: event, key: '${f[1]}', id: '${node.id}'})`
                     }
