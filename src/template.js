@@ -153,7 +153,7 @@ class _template {
                 }
                 if (r_model) {
                     //todo
-                    r_model = `value="${getVal(r_model) ?? ''}" onkeyup="model_change('${component.name}', {event: event, key: '${r_model}'})"`
+                    r_model = `value="${getVal(r_model) ?? ''}" onkeyup="${component.name},${r_model}"`
 
                 }
                 html += '<' + node.tag + ((node.attr.length > 1) ? ' ' : '') + `${node.attr.reduce((acc, item, i) => acc + ((item.key !== 'tag') ? `${item.key}="${item.value.join(" ")}"${((node.attr.length - 1 != i + 1) ? ' ' : '')}` : ''), '')}` + ((type_if) ? ` r-key="${if_key}" r-if="${if_val}" ` : '') + ((key) ? ` r-repeat="${key}" r-index="${i}"` : '') +

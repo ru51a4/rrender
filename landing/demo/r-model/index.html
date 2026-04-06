@@ -73,11 +73,12 @@
     class component_todo extends component {
         state = {
             current: '2waybinding',
+            counter: 0,
         };
 
         body() {
             return `
-           <div class="asda">
+           <div class="asda d-flex justify-content-center flex-column align-items-center">
             <div>
                 <input class="form-control" type="text" r-model="current">
                 </input>
@@ -86,9 +87,22 @@
 
                 <span r-bind="current"> </span>
             </div>
+            <div>
+                <button r-click="increment" class="btn btn-primary">+</button>
+                </div>
+             <div>
+
+                <input class="form-control" type="number" r-model="counter"> </span>
+            </div>
+            
+
         </div>      `
         };
-
+        increment() {
+            this.state.counter++;
+            this.dirtyCheck();
+            Render.renderDom();
+        }
     }
 
 

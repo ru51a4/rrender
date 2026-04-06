@@ -39,7 +39,7 @@ class component {
 }
 
 var _currentDom = '';
-
+var _iid = null;
 class render {
     init = true;
     vdom = [];
@@ -53,7 +53,7 @@ class render {
         _currentDom = this._el.innerHTML.trim().split("\n");
     }
 
-    renderDom() {
+    renderDom(iname = null) {
         let timeA = performance.now();
         let timeB = {};
         let _r = false;
@@ -68,6 +68,7 @@ class render {
             console.log('perfomance', timeB - timeA);
             return;
         }
+        _iid = iname;
 
 
         var currentDom = '';
@@ -270,6 +271,13 @@ class render {
                 init = true;
             }
             if (!init) {
+                if (node.tag == 'input') {
+                    let f = node.attr.find((c) => c['key'] == 'onkeyup').value[0]
+                    if (f) {
+                        f = f.split(",")
+                        node.attr.find((c) => c['key'] == 'onkeyup').value[0] = `model_change('${f[0]}', {event: event, key: '${f[1]}', id: '${node.id}'})`
+                    }
+                }
                 html += '<' + node.tag + ((node.attr.length > 1) ? ' ' : '') + `${node.attr.filter((c) => !c.key.includes('r-')).reduce((acc, item, i) => acc + ((item.key !== 'tag') ? `${item.key}="${item.value.join(" ")}"${((node.attr.length - 1 != i + 1) ? ' ' : '')}` : ''), '')}` + ">"
                 html += node.innerTEXT;
             }
@@ -319,7 +327,7 @@ class render {
                         //
                     } else {
                         let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
-                        if (cc1.tag == 'input' && cc2.tag == 'input') {
+                        if (cc1.tag == 'input' && cc2.tag == 'input' && cc2.id == _iid) {
                             childs.push(cc1.id);
                             continue
                         }
@@ -454,12 +462,12 @@ function model(name, { event, key }) {
     partialCheck(name)
 }
 
-function model_change(name, { event, key }) {
+function model_change(name, { event, key, id }) {
     const value = event.target.value;
     currentComponents.find((item) => {
         item = item.hierarchy.split('.');
         return item[item.length - 1] === name;
     }).component.state[key] = value;
     partialCheck(name)
-    Render.renderDom();
+    Render.renderDom(id);
 }
