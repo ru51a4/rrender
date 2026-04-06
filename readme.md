@@ -5,7 +5,8 @@ https://rrender.github.io
 r-if  
 r-for  
 r-click  
-r-mouse  
+r-mouse
+r-value(for input)  
 r-bind
 r-bind.attr  
 ```
