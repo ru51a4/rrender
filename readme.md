@@ -7,6 +7,7 @@ r-for
 r-click  
 r-mouse
 r-value(for input)  
+r-model(for input)  
 r-bind
 r-bind.attr  
 ```
