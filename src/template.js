@@ -9,6 +9,7 @@ class _template {
         let dom = _template.html_to_dom(str);
         let html = '';
         let stack = [{ data: component.state }];
+
         let getVal = (key, _key) => {
             if (_key) {
                 let val = stack.find((c) => c.key === _key)?.data[key]
@@ -67,6 +68,8 @@ class _template {
             let r_click = node?.attr?.find((c) => c['key'] === 'r-click')?.value[0];
             let r_mouse = node?.attr?.find((c) => c['key'] === 'r-mouse')?.value[0];
             let r_model = node?.attr?.find((c) => c['key'] === 'r-model')?.value[0];
+            let r_value = node?.attr?.find((c) => c['key'] === 'r-value')?.value[0];
+
             let r_bind_attr = node?.attr?.filter((c) => c['key'].includes('r-bind.')).map((c) => {
                 return { key: c['key'], val: c.value[0] };
             })
@@ -145,7 +148,11 @@ class _template {
                         r_mouse = ` onmousemove="runEvent('${component.name}', '${r_mouse}') "`
                     }
                 }
+                if (r_value) {
+                    r_value = `value="${getVal(r_value) ?? ''}" onkeyup="model('${component.name}', {event: event, key: '${r_value}'})"`
+                }
                 if (r_model) {
+                    //todo
                     r_model = ` onchange="model('${component.name}', {event: event, key: '${r_model}'})"`
                 }
                 html += '<' + node.tag + ((node.attr.length > 1) ? ' ' : '') + `${node.attr.reduce((acc, item, i) => acc + ((item.key !== 'tag') ? `${item.key}="${item.value.join(" ")}"${((node.attr.length - 1 != i + 1) ? ' ' : '')}` : ''), '')}` + ((type_if) ? ` r-key="${if_key}" r-if="${if_val}" ` : '') + ((key) ? ` r-repeat="${key}" r-index="${i}"` : '') +
@@ -158,6 +165,7 @@ class _template {
                         }
                     }).filter((c) => c).join(" ") : '') +
                     ((r_click) ? r_click : '') +
+                    ((r_value) ? r_value : '') +
                     ((r_mouse) ? r_mouse : '') + ">"
                 html += "\n"
                 html += node.innerTEXT ?? '';
