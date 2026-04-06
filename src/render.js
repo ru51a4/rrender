@@ -313,12 +313,16 @@ class render {
                 let c3 = (c1 > c2) ? c1 : c2;
                 for (let i = 0; i <= c3 - 1; i++) {
                     let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    if (!cc1.dirty || cc1.tag == 'input') {
+                    if (!cc1.dirty) {
                         //
                         childs.push(cc1.id);
                         //
                     } else {
                         let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                        if (cc1.tag == 'input' && cc2.tag == 'input') {
+                            childs.push(cc1.id);
+                            continue
+                        }
                         let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
                         let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
                         if (JSON.stringify(q1) !== JSON.stringify(q2)) {
