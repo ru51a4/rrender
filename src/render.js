@@ -313,7 +313,7 @@ class render {
                 let c3 = (c1 > c2) ? c1 : c2;
                 for (let i = 0; i <= c3 - 1; i++) {
                     let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    if (!cc1.dirty) {
+                    if (!cc1.dirty || cc1.tag == 'input') {
                         //
                         childs.push(cc1.id);
                         //

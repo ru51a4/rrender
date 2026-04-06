@@ -67,7 +67,7 @@ class BuilderDOM {
 
                 //
                 let el = new node();
-                el.attr = item.attr.filter(c => c['key'] !== "value");
+                el.attr = item.attr;
 
                 el.tag = item.tag.trim();
                 el.numChild = map[lvl_key];
