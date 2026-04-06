@@ -447,5 +447,5 @@ function model(name, { event, key }) {
         item = item.hierarchy.split('.');
         return item[item.length - 1] === name;
     }).component.state[key] = value;
-    Render.renderDom();
+    partialCheck(name)
 }

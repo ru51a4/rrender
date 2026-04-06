@@ -103,7 +103,7 @@
     class component_todo extends component {
         state = {
             serf: false,
-            current: '',
+            inputt: '',
             todos: [
                 { complete: false, title: 'помыть посуду' },
                 { complete: false, title: 'приготовить обед' },
@@ -127,7 +127,7 @@
                         <ul>
                             <my-li r-for="todos">
                         </ul>
-                        <input class="form-control" type="text" onchange="model('${this.name}', {event: event, key: 'current'})">
+                        <input class="form-control" type="text" r-value="current">
                         </input>
                         <button class="mt-2 btn btn-primary" r-click="add">добавить</button>
                     </div>
@@ -138,7 +138,6 @@
         add() {
             if (this.state.current.length > 0 && !this.state.todos.find(item => item.title === this.state.current)) {
                 this.state.todos.push({ title: this.state.current, complete: false });
-                this.state.current = '';
             }
         }
 
