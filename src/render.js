@@ -449,3 +449,13 @@ function model(name, { event, key }) {
     }).component.state[key] = value;
     partialCheck(name)
 }
+
+function model_change(name, { event, key }) {
+    const value = event.target.value;
+    currentComponents.find((item) => {
+        item = item.hierarchy.split('.');
+        return item[item.length - 1] === name;
+    }).component.state[key] = value;
+    partialCheck(name)
+    Render.renderDom();
+}
