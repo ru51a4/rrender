@@ -75,7 +75,9 @@
             current: '2waybinding',
             counter: 0,
         };
-
+        effects = {
+            current: 'consolelog'
+        }
         body() {
             return `
            <div class="asda d-flex justify-content-center flex-column align-items-center">
@@ -98,6 +100,9 @@
 
         </div>      `
         };
+        consolelog() {
+            console.log(this.state.current)
+        }
         increment() {
             this.state.counter++;
             this.dirtyCheck();
