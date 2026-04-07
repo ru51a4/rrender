@@ -272,7 +272,6 @@ class render {
             }
             if (!init) {
                 if (node.tag == 'input') {
-                    console.log({ node })
                     let f = node.attr.find((c) => c['key'] == 'onkeyup').value[0]
                     let rmodel = node.attr.find((c) => c['key'] == 'r-model').value[0];
                     if (f && rmodel) {
@@ -419,12 +418,21 @@ class render {
     };
 }
 
-function runEvent(name, nameEvent, arg) {
+function runEvent(name, nameEvent, arg, iid = null) {
     currentComponents.find((item) => {
         return item.name === name;
     }).component[nameEvent](arg);
     partialCheck(name);
-    Render.renderDom();
+    let method = currentComponents.find((item) => {
+        item = item.hierarchy.split('.');
+        return item[item.length - 1] === name;
+    }).component['effects']?.[key];
+    if (method) {
+        setTimeout(() => {
+            runEvent(name, method, {}, id);
+        }, 0)
+    }
+    Render.renderDom(iid);
 }
 function partialCheck(name) {
     for (let i = 0; i <= currentComponents.length - 1; i++) {
@@ -471,5 +479,14 @@ function model_change(name, { event, key, id }) {
         return item[item.length - 1] === name;
     }).component.state[key] = value;
     partialCheck(name)
+    let method = currentComponents.find((item) => {
+        item = item.hierarchy.split('.');
+        return item[item.length - 1] === name;
+    }).component['effects']?.[key];
+    if (method) {
+        setTimeout(() => {
+            runEvent(name, method, {}, id);
+        }, 0)
+    }
     Render.renderDom(id);
 }
