@@ -423,15 +423,6 @@ function runEvent(name, nameEvent, arg, iid = null) {
         return item.name === name;
     }).component[nameEvent](arg);
     partialCheck(name);
-    let method = currentComponents.find((item) => {
-        item = item.hierarchy.split('.');
-        return item[item.length - 1] === name;
-    }).component['effects']?.[key];
-    if (method) {
-        setTimeout(() => {
-            runEvent(name, method, {}, id);
-        }, 0)
-    }
     Render.renderDom(iid);
 }
 function partialCheck(name) {
