@@ -272,8 +272,8 @@ class render {
             }
             if (!init) {
                 if (node.tag == 'input') {
-                    let f = node.attr.find((c) => c['key'] == 'onkeyup').value[0]
-                    let rmodel = node.attr.find((c) => c['key'] == 'r-model').value[0];
+                    let f = node.attr.find((c) => c['key'] == 'onkeyup')?.value[0]
+                    let rmodel = node.attr.find((c) => c['key'] == 'r-model')?.value[0];
                     if (f && rmodel) {
                         f = f.split(",")
                         node.attr.find((c) => c['key'] == 'onkeyup').value[0] = `model_change('${f[0]}', {event: event, key: '${f[1]}', id: '${node.id}'})`
@@ -319,43 +319,181 @@ class render {
                 let c1 = elVdom?.childrens?.length;
                 let c2 = prevElVdom?.childrens?.length;
                 let childs = [];
+                let mmax = 0;
+                if (c1 > c2) {
+                    mmax = c1;
+                } else {
+                    mmax = c2;
+                }
                 let c3 = (c1 > c2) ? c1 : c2;
-                for (let i = 0; i <= c3 - 1; i++) {
-                    let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
-                    if (!cc1.dirty) {
+                let ggi = 0;
+                let ggj = mmax;
+
+                //
+                let o = false;
+                //
+                if (Math.abs(c1 - c2) === 1 && ggj > 1) {
+                    let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[ggi]?.id);
+                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[ggi + 1]?.id);
+                    let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                    let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+
+                    if (JSON.stringify(q1) === JSON.stringify(q2)) {
+                        //remove first
+                        o = { t: 'rf' };
+
                         //
-                        childs.push(cc1.id);
-                        //
-                    } else {
-                        let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
-                        if (cc1.tag == 'input' && cc2.tag == 'input' && cc2.id == _iid) {
-                            childs.push(cc1.id);
-                            continue
-                        }
-                        let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                        let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
-                        if (JSON.stringify(q1) !== JSON.stringify(q2)) {
-                            if (prevElVdom.id.includes('component')) {
-                                prevElVdom = prevElVdom.parentNode;
-                                elVdom = elVdom.parentNode;
+                        for (let i = 0; i <= c3 - 1 - 1; i++) {
+                            let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
+                            let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i + 1]?.id);
+                            let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                            let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                            if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                                o = null;
+                                break;
                             }
-                            stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
-                            return;
-                        } {
-                            childs.push(cc1.id);
                         }
+                        //
+                    }
+
+                    else {
+                        let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[elVdom?.childrens.length - 1]?.id);
+                        let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[prevElVdom?.childrens.length - 1 - 1]?.id);
+                        let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                        let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+
+                        if (JSON.stringify(q1) === JSON.stringify(q2)) {
+                            //remove last
+                            o = { t: 'rl' }
+                            console.log(22, cc1)
+
+                            for (let i = 0; i <= c3 - 1 - 1; i++) {
+                                let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
+                                let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                                let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                                    o = null;
+                                    break;
+                                }
+                            }
+                        }
+                        /*
+                        else {
+                            let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[ggi + 1]?.id);
+                            let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[ggi]?.id);
+                            let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                            let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                            if (JSON.stringify(q1) === JSON.stringify(q2)) {
+                                //append first
+                                o = { t: 'af', node: this.vdom.find((el) => el.id == elVdom?.childrens[ggi]?.id) };
+                                for (let i = 1; i <= c3 - 1; i++) {
+                                    let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i + 1]?.id);
+                                    let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                                    let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                    let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                    if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                                        o = null;
+                                    }
+                                }
+                            } else {
+                                let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[elVdom?.childrens.length - 1 - 1]?.id);
+                                let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[prevElVdom?.childrens.length - 1]?.id);
+                                let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                if (JSON.stringify(q1) == JSON.stringify(q2)) {
+                                    //append last
+                                    console.log({ s: this.vdom.find((el) => el.id == elVdom?.childrens[ggj]?.id) })
+                                    o = { t: 'al', node: this.vdom.find((el) => el.id == elVdom?.childrens[elVdom?.childrens.length - 1]?.id) };
+                                    for (let i = 0; i <= c3 - 1 - 1 - 1; i++) {
+                                        let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
+                                        let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                                        let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                        let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '', numChild: '', id: '', attr: '' };
+                                        if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                                            o = null;
+                                        }
+                                    }
+                                } else {
+                                    o = null
+                                }
+                            }
+                        }
+
+                    }
+                    */
                     }
                 }
-                childs.forEach((id) => {
-                    deepReplace(id);
-                })
+                if (!o) {
+                    //
+                    for (let i = 0; i <= c3 - 1; i++) {
+                        let cc1 = this.vdom.find((el) => el.id == elVdom?.childrens[i]?.id);
+                        if (!cc1.dirty) {
+                            //
+                            childs.push(cc1.id);
+                            //
+                        } else {
+                            let cc2 = this.prevVdom.find((el) => el.id == prevElVdom?.childrens[i]?.id);
+                            if (cc1.tag == 'input' && cc2.tag == 'input' && cc2.id == _iid) {
+                                childs.push(cc1.id);
+                                continue
+                            }
+                            let q1 = { ...cc1, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                            let q2 = { ...cc2, childrens: "", parentComponent: "", parentNode: "", left: '', right: '' };
+                            if (JSON.stringify(q1) !== JSON.stringify(q2)) {
+                                if (prevElVdom.id.includes('component')) {
+                                    prevElVdom = prevElVdom.parentNode;
+                                    elVdom = elVdom.parentNode;
+                                }
+                                stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "create" })
+                                return;
+                            } {
+                                childs.push(cc1.id);
+                            }
+                        }
+                    }
+                    childs.forEach((id) => {
+                        deepReplace(id);
+                    })
+                } else {
+                    stackUpdateDom.push({ el: elVdom, prev: prevElVdom, type: "mod", o })
+
+                }
+
 
             }
             deepReplace(this.vdom[0].id);
+            console.log({ stackUpdateDom })
             stackUpdateDom.forEach((itemUpdate) => {
                 let domEl = getDomEl([...itemUpdate.prev.parent, itemUpdate.prev.id]);
                 html = '';
                 switch (itemUpdate.type) {
+                    case "mod":
+                        function createElementFromTemplate(htmlString) {
+                            const template = document.createElement('template');
+                            template.innerHTML = htmlString.trim();
+                            return template.content.firstElementChild;
+                        }
+
+                        if (itemUpdate.o.t == 'rl') {
+                            domEl.children[domEl.children.length - 1].remove()
+                        }
+                        if (itemUpdate.o.t == 'rf') {
+                            domEl.children[0].remove()
+                        }
+                        if (itemUpdate.o.t == 'af') {
+                            sumHtml(itemUpdate.o.node, false);
+                            var theFirstChild = domEl.firstChild;
+                            var newElement = createElementFromTemplate(html)
+                            domEl.insertBefore(newElement, theFirstChild);
+                        }
+                        if (itemUpdate.o.t == 'al') {
+                            sumHtml(itemUpdate.o.node, false);
+                            var newElement = createElementFromTemplate(html)
+                            domEl.appendChild(newElement);
+                        }
+                        //todo
+                        break;
                     case "delete":
                         //todo
                         break;
