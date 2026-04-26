@@ -272,7 +272,6 @@ class render {
             }
             if (!init) {
                 if (node.tag == 'input') {
-                    console.log({ node })
                     let f = node.attr.find((c) => c['key'] == 'onkeyup')?.value[0]
                     let rmodel = node.attr.find((c) => c['key'] == 'r-model')?.value[0];
                     if (f && rmodel) {

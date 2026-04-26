@@ -24,7 +24,6 @@ class component_menu extends component {
                 return;
             }
             let $tree = data.tree
-            console.log($tree)
 
             let $zhsmenu = { "childrens": [] };
             let $deep = ($c, id) => {
@@ -107,12 +106,10 @@ class component_col extends component {
         }
     };
     destroy() {
-        console.log(this.name)
     }
     init() {
         _store.lvl.subscribe(() => {
             let lvl = Number(this.index);
-            console.log(_menu)
             this.state.margin = _store.clvls.getValue().filter(c => c.lvl <= Number(lvl - 1)).reduce((acc, item) => acc + _menu[item.lvl].val.filter((c) => c.display).map((c) => c.title).indexOf(item.title) * 50, 0);
         })
     }

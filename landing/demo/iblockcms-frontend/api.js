@@ -14,5 +14,11 @@ class Api {
         })
     }
 
+    static ffilter = (sectionId, page, arr) => {
+        return axios.post(`${this.apiUrl}/filter/${sectionId}/${page}`, {
+            filter: arr,
+
+        })
+    }
 
 }

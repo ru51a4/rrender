@@ -108,10 +108,14 @@ class _template {
                     if (type_if.split("")[0] === '!') {
                         if_key = type_if.split("").filter((c, i) => i !== 0).join("");
                         if_val = !Boolean(getVal(if_key))
+                        console.log({ if_key, if_val })
+
 
                     } else {
                         if_key = type_if;
                         if_val = Boolean(getVal(if_key))
+                        console.log({ if_key, if_val })
+
                     }
                 }
                 let attr;

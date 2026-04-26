@@ -11,7 +11,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.6.2/axios.min.js"
         integrity="sha512-b94Z6431JyXY14iSXwgzeZurHHRNkLt9d6bAHt7BZT38eqV+GyngIi/tVye4jBKPYQ2lBdRs0glww4fmpuLRwA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
     <script src="https://cdn.jsdelivr.net/gh/ru51a4/rrender/dist/rrender.js"></script>
+
     <script src="store.js"></script>
     <script src="api.js"></script>
     <script src="./components/header-menu/header-menu.component.js"></script>
@@ -120,6 +122,11 @@
                 },
                 fc: () => {
                     return Boolean(Object.keys(this.props).length) ? 'col-9' : 'col-12'
+                },
+                checkedd: () => {
+                    console.log(this)
+                    return this.currprops.includes(1)
+
                 }
             };
             init() {
@@ -136,7 +143,6 @@
                     }
                     dfs(t[1])
                     this.state.tree[1] = t[1];
-                    console.log(this.state.tree)
                 });
                 _store.catalog.subscribe((data) => {
                     this.state.data = data;
@@ -151,26 +157,55 @@
 
                 _store.cSection.subscribe((id) => {
                     this.state.cSection = id;
+                    this.currprops = [];
                     this.state.page = 1;
                     this.fetch();
                 });
                 this.fetch();
             }
             props = {};
+            currprops = [];
+            fuckyou = [];
             fetch(section = null, page = null) {
                 setTimeout(() => {
                     this.props = {}
-                    Api.getCatalog(section ?? this.state.cSection, page ?? this.state.page).then((data) => {
-                        for (let i = 0; i <= data.data.props.res?.length - 1; i++) {
-                            this.props[data.data.props.res[i].id] = {};
-                            this.props[data.data.props.res[i].id].name = data.data.props.res[i].name;
-                            this.props[data.data.props.res[i].id].values = data.data.props.values[data.data.props.res[i].id].sort((a, b) => parseFloat(a.value) - parseFloat(b.value));
+                    let arr = {};
+                    this.currprops.forEach((c) => {
+                        if (!arr[this.fuckyou[c]]) {
+                            arr[this.fuckyou[c]] = []
                         }
-                        console.log(this.props)
+                        arr[this.fuckyou[c]].push(c);
+                    })
+                    if (Object.keys(arr).length) {
+                        Api.ffilter(section ?? this.state.cSection, page ?? this.state.page, arr).then((data) => {
+                            for (let i = 0; i <= data.data.props.res?.length - 1; i++) {
+                                this.props[data.data.props.res[i].id] = {};
+                                this.props[data.data.props.res[i].id].name = data.data.props.res[i].name;
+                                this.props[data.data.props.res[i].id].values = data.data.props.values[data.data.props.res[i].id].sort((a, b) => parseFloat(a.value) - parseFloat(b.value)).map((c) => {
+                                    this.fuckyou[c.id] = c.prop_id;
+                                    return { ...c, check: this.currprops.includes(c.id) }
+                                });
+                            }
 
 
-                        _store.catalog.next(data.data)
-                    });
+                            _store.catalog.next(data.data)
+                        });
+                    } else {
+                        Api.getCatalog(section ?? this.state.cSection, page ?? this.state.page).then((data) => {
+                            for (let i = 0; i <= data.data.props.res?.length - 1; i++) {
+                                this.props[data.data.props.res[i].id] = {};
+                                this.props[data.data.props.res[i].id].name = data.data.props.res[i].name;
+                                this.props[data.data.props.res[i].id].values = data.data.props.values[data.data.props.res[i].id].sort((a, b) => parseFloat(a.value) - parseFloat(b.value)).map((c) => {
+                                    this.fuckyou[c.id] = c.prop_id;
+                                    return { ...c, check: this.currprops.includes(c.id) }
+                                });
+                            }
+
+
+                            _store.catalog.next(data.data)
+                        });
+                    }
+
 
                 }, 0)
 
@@ -183,6 +218,18 @@
 
             setPagePrev() {
                 this.state.page--;
+                this.fetch()
+            }
+            vote(id) {
+                this.state.page = 1;
+
+                let f = this.currprops.filter((c) => c === id);
+                if (f.length) {
+                    this.currprops = this.currprops.filter((c) => c != id);
+                } else {
+                    this.currprops.push(id);
+                }
+
                 this.fetch()
             }
             body() {
@@ -217,8 +264,9 @@
                          <div class="mb-2" r-for="ffilter">
                             <span r-bind="name"></span>
                              <div r-for="values">
-                                <input type="checkbox" id="horns">
+                                <input r-click="vote.id" type="checkbox" id="horns"></input>
                                 <label class="mx-2" r-bind="value"></label>
+                               
                             </div>
                         </div>
                     </div>
