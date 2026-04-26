@@ -6,9 +6,9 @@ class component_catalog extends component {
         _store.catalog.subscribe((data) => {
             this.state.els = data?.els.map((c) => {
                 return {
-                    ...c, img: `http://188.120.245.72:8082/` + c.prop["DETAIL_PICTURE"], prop:
+                    ...c, img: `` + c.prop["DETAIL_PICTURE"], prop:
                         Object.keys(c.prop)?.map((key) => {
-                            return (key !== 'DETAIL_PICTURE' && key !== 'photo') ? `<li>${key} - ${c.prop[key]}</li>` : ""
+                            return (key !== 'DETAIL_PICTURE' && key !== 'photo') ? `<li>${key} - ${c.prop[key]}${key == 'Цена' && c.prop[key] != 'Не указано' ? 'р.' : ''}</li>` : ""
                         }).join("")
                 }
             });
@@ -16,20 +16,20 @@ class component_catalog extends component {
     }
     body() {
         return `
-               <ul>
-                <li r-for="els" class="card mb-4 d-flex justify-content-center">
-                    <div class="p-2">
+               <div class="d-flex flex-wrap mb-5 col-12">
+                <div r-for="els" class="p-2 d-flex col-4"> 
+                    <div class="p-2 card d-flex h-100 w-100 justify-content-center align-items-start">
                         <span r-bind="name"></span>
-                        <p>
-                            <img style="width:100px" r-bind.src="img">
+                        <div class="d-flex mx-auto my-3 align-items-center justify-content-center">
+                            <img style="" r-bind.src="img">
                             </img>
-                        </p>
+                        </div>
                         <ul>
                             <div r-bind="prop"></div>
                         </ul>
                     </div>
                 </li>
-            </ul>
+            </div>
             `;
     }
 }
