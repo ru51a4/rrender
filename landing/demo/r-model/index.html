@@ -74,26 +74,36 @@
         state = {
             current: '2waybinding',
             counter: 0,
+            test: [
+                {
+                    arr:
+                        [
+                            { asd: true, val: 1 },
+                            { asd: false, val: 2 },
+                            { asd: true, val: 3 }
+                        ]
+                }
+                , {
+                    arr:
+                        [
+                            { asd: true, val: 4 },
+                            { asd: false, val: 5 },
+                            { asd: true, val: 6 }
+                        ]
+                }
+            ]
         };
 
         body() {
             return `
            <div class="asda d-flex justify-content-center flex-column align-items-center">
-            <div>
-                <input class="form-control" type="text" r-model="current">
-                </input>
-            </div>
-            <div>
-
-                <span r-bind="current"> </span>
-            </div>
-            <div>
-                <button r-click="increment" class="btn btn-primary">+</button>
+                <div r-for="test">
+                    <div r-for="arr">
+                        <div lol="1" r-if="asd">
+                            <span r-bind="val"></span>
+                        </div>
+                    </div>
                 </div>
-             <div>
-
-                <input class="form-control" type="number" r-model="counter"> </span>
-            </div>
             
 
         </div>      `
