@@ -9,7 +9,6 @@ class _template {
         let dom = _template.html_to_dom(str);
         let html = '';
         let stack = [{ data: component.state }];
-        console.log({ dom })
         let getVal = (key, _key) => {
             if (_key) {
                 let val = stack.find((c) => c.key === _key)?.data[key]
@@ -64,7 +63,6 @@ class _template {
             let for_key = ''
             let type_for = node?.attr?.find((c) => c['key'] === 'r-for')?.value[0];
             let type_if = node?.attr?.find((c) => c['key'] === 'r-if')?.value[0];
-            console.log({ type_if, node })
             let bind = node?.attr?.find((c) => c['key'] === 'r-bind')?.value[0];
             let r_click = node?.attr?.find((c) => c['key'] === 'r-click')?.value[0];
             let r_mouse = node?.attr?.find((c) => c['key'] === 'r-mouse')?.value[0];
@@ -95,7 +93,6 @@ class _template {
                 if (!val?.length && components.map(item => item.name).includes(node.tag)) {
                     html += `<${node.tag} r-index="0" r-type="destroy" r-repeat="${type_for}">` + "\n"
                 }
-                console.log({ val })
                 for (let j = 0; j <= val?.length - 1; j++) {
                     value = val?.[j]
                     stack.push({ key: for_key, data: JSON.parse(JSON.stringify(value)) });
@@ -106,22 +103,17 @@ class _template {
             } else {
                 let if_key
                 let if_val
-                console.log({ dd: type_if })
 
                 if (type_if) {
                     attrr = node?.attr?.filter((c) => c['key'] !== 'r-if');
                     if (type_if.split("")[0] === '!') {
                         if_key = type_if.split("").filter((c, i) => i !== 0).join("");
                         if_val = !Boolean(getVal(if_key))
-                        console.log({ if_key, if_val })
 
 
                     } else {
                         if_key = type_if;
-                        console.log({ asd: getVal(if_key) })
                         if_val = Boolean(getVal(if_key))
-                        console.log({ if_key, if_val })
-
                     }
                 }
                 let attr;
