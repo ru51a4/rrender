@@ -125,6 +125,8 @@ class render {
                     if (destroys.includes(currentName)) {
                         currentComponents.filter((c) => {
                             return c.hierarchy?.split(".")?.includes(currentName);
+                        }).sort((b, a) => {
+                            return a.hierarchy?.split(".")?.length - b.hierarchy?.split(".")?.length;
                         }).forEach((c) => {
                             c.component.destroy();
                             currentComponents = currentComponents.filter((d) => d.name !== c.name);
@@ -165,6 +167,8 @@ class render {
                                     j--;
                                     currentComponents.filter((c) => {
                                         return c.hierarchy?.split(".")?.includes(cc.name);
+                                    }).sort((b, a) => {
+                                        return a.hierarchy?.split(".")?.length - b.hierarchy?.split(".")?.length;
                                     }).forEach((c) => {
 
                                         c.component.destroy();
