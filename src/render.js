@@ -381,6 +381,7 @@ class render {
             this._el.innerHTML = html;
             this.init = false;
             this.prevVdom = this.vdom;
+            this.prevComponents = JSON.parse(JSON.stringify(currentComponents))
         }
         timeB = performance.now();
         console.log('perfomance', timeB - timeA);
