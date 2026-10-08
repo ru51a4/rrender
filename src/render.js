@@ -432,7 +432,7 @@ function runEvent(name, nameEvent, arg) {
 }
 function partialCheck(name) {
     for (let i = 0; i <= currentComponents.length - 1; i++) {
-        if (currentComponents[i].hierarchy.includes(name)) {
+        if (currentComponents[i].hierarchy.split('.').includes(name)) {
             currentComponents[i].component.bbody = null;
         }
     }
